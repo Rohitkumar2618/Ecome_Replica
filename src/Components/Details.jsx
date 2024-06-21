@@ -1,54 +1,60 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import img1 from "../../public/GalaxyCSquare.png";
-const Details = () => {
-  return (
-    <div
-      className="w-[70%] flex 
-      justify-between
-      h-[90%]
- m-auto p-[10%]
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import Loading from "./Loading";
 
- border border-solid
- rounded-md
- bg-zinc-100
-    
-    "
-    >
-      <img className=" object-contain h-[80%] w-[40%] " src={img1} alt="" />
-      <div className="content  w-[50%]">
-        <h1
-          className="text-4xl font-semibold  p-2 center
-          mt-12
-        "
-        >
-          Lorem ipsum dolor sit amet.{" "}
-        </h1>
-        <h3 className="text-zinc-400 my-50 ml-1">Men's Clothing</h3>
-        <h2 className="mt-[5%] p-2 text-black-100 font-semibold ">$4500</h2>
-        <p className="text-sm mt-[15%] p-1 ">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
-          accusantium molestiae ipsum magni maxime. Voluptate excepturi, fugit
-          nisi ex quod eum fugiat architecto.
-        </p>
-        <div className="flex justify-between  p-10 items-center">
-          <Link
-            className="px-5 py-2 rounded border border-blue-300
-          hover:scale-105
-          text-blue-300
-             "
-          >
-            Edit
-          </Link>
-          <Link
-            className="px-5 py-2 rounded border border-red-300 hover:scale-105
-          text-red-300
-           "
-          >
-            Delete
-          </Link>
-        </div>
-      </div>
+const Details = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    const getSingleProduct = async () => {
+      try {
+        const { data } = await axios.get(
+          `https://fakestoreapi.com/products/${id}`
+        );
+        setProduct(data);
+      } catch (error) {
+        console.log("Error fetching product:", error);
+      }
+    };
+
+    getSingleProduct();
+  }, [id]);
+
+  return (
+    <div className="w-[70%] m-auto p-[5%] border border-solid rounded-md flex">
+      {product ? (
+        <>
+          <img
+            className="object-contain h-[80%] w-[40%] rounded-lg"
+            src={product.image}
+            alt={product.title}
+          />
+          <div className="w-[60%] p-6">
+            <h1 className="text-4xl font-semibold">{product.title}</h1>
+            <h3 className="text-gray-600 mt-2">{product.category}</h3>
+            <h2 className="mt-4 text-2xl font-semibold">${product.price}</h2>
+            <p className="text-sm mt-4">{product.description}</p>
+            <div className="flex justify-between mt-6">
+              <Link
+                to={`/edit/${product.id}`}
+                className="px-5 py-2 rounded border border-blue-300 text-blue-300 hover:scale-105"
+              >
+                Edit
+              </Link>
+              <Link
+                to={`/delete/${product.id}`}
+                className="px-5 py-2 rounded border border-red-300 text-red-300 hover:scale-105"
+              >
+                Delete
+              </Link>
+            </div>
+          </div>
+        </>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };
