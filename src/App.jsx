@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./Components/Home";
 import Details from "./Components/Details";
 import { Link } from "react-router-dom";
+import Create from "./Components/Create";
 
 const App = () => {
   // getting seach and pathname of current page
@@ -21,6 +22,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/create" element={<Create />} />
         <Route path="/details/:id" element={<Details />} />
       </Routes>
     </div>
