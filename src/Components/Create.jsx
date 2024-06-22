@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ProductContext } from "../utils/Context";
 
 const Create = () => {
+  // !
+  // const [products, setProducts] = useContext(ProductContext);
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
 
+  // Handle form submit
   const addProductHandler = (e) => {
     e.preventDefault();
 
-    const product = { title, image, category, price, description };
+    // !
+    // const product = { title, image, category, price, description };
 
-    console.log(product);
+    // setProducts([...products, product]);
+
+    // console.log(product);
+    // toast.success(" New Product Added");
   };
 
   return (
