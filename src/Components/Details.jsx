@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
 import { ProductContext } from "../utils/Context";
@@ -9,15 +9,21 @@ const Details = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const ProductDeleteHandler = (productId) => {
+    const FilteredProducts = products.filter((p) => p.id !== productId);
+    setProducts(FilteredProducts);
+    localStorage.setItem("products", JSON.stringify(FilteredProducts));
+    navigate("/"); // Redirect to home page after deleting the product
+  };
 
   useEffect(() => {
-    // Check if the product exists in the context
     const existingProduct = products.find((p) => p.id === id);
     if (existingProduct) {
       setProduct(existingProduct);
       setLoading(false);
     } else {
-      // Fetch the product from the API if not found in context
       const fetchProduct = async () => {
         try {
           const { data } = await axios.get(
@@ -30,7 +36,6 @@ const Details = () => {
           setLoading(false);
         }
       };
-
       fetchProduct();
     }
   }, [id, products]);
@@ -62,12 +67,12 @@ const Details = () => {
           >
             Edit
           </Link>
-          <Link
-            to={`/delete/${product.id}`}
+          <button
+            onClick={() => ProductDeleteHandler(product.id)}
             className="px-5 py-2 rounded border border-red-300 text-red-300 hover:scale-105"
           >
             Delete
-          </Link>
+          </button>
         </div>
       </div>
     </div>

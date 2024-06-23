@@ -4,6 +4,7 @@ import Home from "./Components/Home";
 import Details from "./Components/Details";
 import { Link } from "react-router-dom";
 import Create from "./Components/Create";
+import ProductEdit from "./Components/ProductEdit";
 
 const App = () => {
   // getting seach and pathname of current page
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/create" element={<Create />} />
         <Route path="/details/:id" element={<Details />} />
+        <Route path="/edit/:id" component={ProductEdit} />
       </Routes>
     </div>
   );
