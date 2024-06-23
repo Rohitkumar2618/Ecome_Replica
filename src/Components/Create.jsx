@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { ProductContext } from "../utils/Context";
+import { nanoid } from "nanoid";
 
 const Create = () => {
-  // !
-  // const [products, setProducts] = useContext(ProductContext);
+  const { products, setProducts } = useContext(ProductContext);
+
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
@@ -14,13 +15,39 @@ const Create = () => {
   const addProductHandler = (e) => {
     e.preventDefault();
 
-    // !
-    // const product = { title, image, category, price, description };
+    if (
+      title.trim().length < 5 ||
+      image.trim().length < 5 ||
+      category.trim().length < 5 ||
+      price.trim().length < 1 ||
+      description.trim().length < 5
+    ) {
+      alert(
+        "Each field must have at least 5 characters, except for the price which must have at least 1 character."
+      );
+      return; // Prevent form submission if validation fails
+    }
 
-    // setProducts([...products, product]);
+    const product = {
+      id: nanoid(),
+      title,
+      image,
+      category,
+      price,
+      description,
+    };
 
-    // console.log(product);
-    // toast.success(" New Product Added");
+    // Append the new product to the existing products array
+    setProducts((prevProducts) => [...prevProducts, product]);
+
+    // Clear form fields after submission
+    setTitle("");
+    setImage("");
+    setCategory("");
+    setPrice("");
+    setDescription("");
+
+    console.log([...products, product]); // Log the updated products array
   };
 
   return (

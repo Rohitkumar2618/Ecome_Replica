@@ -1,34 +1,3 @@
-// import React, { createContext, useEffect, useState } from "react";
-
-// import axios from "./axios";
-
-// export const ProductContext = createContext();
-
-// const Context = (props) => {
-//   const [products, setProducts] = useState(null);
-
-//   const getProducts = async () => {
-//     try {
-//       const { data } = await axios("/products");
-//       setProducts(data);
-//       console.log(data);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   useEffect(() => {
-//     getProducts();
-//   }, []);
-//   return (
-//     <ProductContext.Provider value={[products, setProducts]}>
-//       {props.children}
-//     </ProductContext.Provider>
-//   );
-// };
-
-// export default Context;
-
 import axios from "./axios";
 import { createContext, useEffect, useState } from "react";
 
@@ -39,7 +8,7 @@ const Context = ({ children }) => {
 
   const getProducts = async () => {
     try {
-      const { data } = await axios.get("/products"); // Ensure axios.get is used
+      const { data } = await axios.get("/products");
       setProducts(data); // Set the products state with the fetched data
       console.log(data);
     } catch (error) {
